@@ -4,7 +4,11 @@ Research note · 26 November 2026 · Maintained by Yingbo Sun (orcarider7)
 
 [Literature comparison and priority search](PRIOR-ART.md) · [Citation information](CITATION.cff) · [Companion replication studies](https://github.com/orcarider7/paper-replication-lab)
 
-The [four-particle proof](four-sites.md) classifies all ground states at the critical charge ratio. In the [inverse-square study](inverse-square.md), at charge ratio six, a 78-particle cell has a strictly locally minimizing uniform state and also configurations whose energy tends to negative infinity. The first even period with a negative second variation at uniform spacing is 96. To verify the signs, including the 78-site integer certificate, run `python check_finite_cells.py` using the [verification script](check_finite_cells.py).
+**The first collapsing even period is exactly 78** for charges $6,-1$ with inverse-square interactions. Up to 76 sites per period the energy attains a finite minimum for every fixed density. Beginning at 78 sites it can decrease without bound. The uniform chain remains a strict local minimum at 78 and first acquires a negative second variation at 96. [Research manuscript](collapse-onset.md) · [PDF](first-collapse.pdf) · [Exact verification script](check_collapse_onset.py)
+
+中文摘要：在一维周期链中，两类粒子的电荷交替为 $6$ 和 $-1$，相互作用能与距离平方成反比，同类相吸、异类相斥。固定周期长度时，每周期最多 76 个粒子（偶数）都有最低能量。从 78 个开始，可以通过压缩一组粒子让能量趋向负无穷。证明用整数运算覆盖了所有较小周期的排法。下载仓库后运行 **python check_collapse_onset.py** 即可复核。
+
+The [four-particle proof](four-sites.md) classifies all ground states at the critical charge ratio. The [inverse-square Hessian and trial configurations](inverse-square.md) can be checked with [check_finite_cells.py](check_finite_cells.py).
 
 For a one-dimensional periodic chain with alternating charges $m,-1$, write the pair interaction as $-q_iq_j|x_i-x_j|^{-p}$, with $m>0$ and $p>1$. Equal spacing uniquely minimizes the energy simultaneously at every density and every even period if and only if
 
@@ -182,4 +186,4 @@ Here $B_4=-5/2$ and $B_{N+2}-B_N=-37/N+12/(N+1)<0$. The right-hand side is negat
 
 The accompanying [verification script](verify.py) evaluates numerical examples alongside the analytic proof.
 
-OpenAI Codex derived and drafted these notes. Four AI models participated in a technical review. Astra found the 78-site rational witness, and Sol independently evaluated the signed pair energies as exact fractions. Terra audited the proof and the direction of the integer ceiling bound. Gemini challenged the charge signs, corrected its initial reading after substitution, and checked the scaling argument conditional on the certificate. Both Python scripts can be run with the standard library. Formal peer review and literature priority remain outstanding.
+OpenAI Codex derived and drafted these notes. Astra found the original 78-site rational witness, and Sol independently evaluated the signed pair energies as exact fractions. Terra audited the proof and the sign of the integer ceiling bound. Gemini reviewed the scaling argument conditional on the certificate. For the exact finite-period cutoff, Astra and Sol separately checked the 75-site integer certificate, Terra reviewed the reduction, and Gemini reviewed the analytic argument conditional on the integer checks. All verification scripts use the Python standard library. The optional flow generator uses SciPy. Formal peer review and literature priority remain outstanding.

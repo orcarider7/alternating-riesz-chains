@@ -133,7 +133,7 @@ $$
 
 A numerical search suggested the coordinates. Once the integers are fixed, checking their order and summing 3,003 integer quotients suffices. Compress these sites into an interval of length less than $L/4$ by multiplying their translated positions by $\delta>0$. Their contribution is $(2S/78)\delta^{-2}$. The image sums stay bounded. For any greater even period $N$, place the additional alternating sites at distinct fixed positions in $(L/2,3L/4)$. All new distances to the compressed cluster and its images stay bounded away from zero, and the inverse-square image tails converge. The leading coefficient is then $2S/N<0$. This proves collapse for every even $N\ge78$.
 
-At 78 the positive Hessian margin is exactly $159397/4626882$. The local minimum therefore coexists with a globally unbounded energy. The first collapsing even period is at most 78. The lower endpoint for arbitrary configurations remains undetermined.
+At 78 the positive Hessian margin is exactly $159397/4626882$. The local minimum therefore coexists with a globally unbounded energy. The [exact cutoff proof](collapse-onset.md) establishes boundedness for every smaller even period, using a certificate valid for arbitrary ordered coordinates.
 
 ## Scope and reproducibility
 
