@@ -49,4 +49,8 @@ For $N=2k+2$, the [largest-gap reduction](collapse-onset.md) applies for every $
 
 ### Attribution and checks
 
-The periodic model comes from Bétermin, Knüpfer and Nolte. The finite-size questions here extend the project's earlier exact onset at charge ratio six. Codex generated the arguments, code and draft. Astra developed the strict-decrease proof, and Sol developed the algebraic six-site certificate. They independently checked each other's arguments and the four rational enclosures. Terra and Gemini reviewed the analytic reasoning. Gemini was accessed in Auto mode and did not recompute the data files. A proposed monotonicity shortcut failed on a five-site configuration, so the proof uses the two roots of the fixed-shape energy quadratic. Formal peer review and independent confirmation of literature priority remain open. [Original article](https://doi.org/10.1007/s10955-020-02603-2) · [Literature search](PRIOR-ART.md)
+The periodic model comes from Bétermin, Knüpfer and Nolte. The finite-size questions here extend the project's earlier exact onset at charge ratio six. Codex generated the arguments, code and draft.
+
+Astra developed the strict-decrease proof, and Sol developed the algebraic six-site certificate. They independently checked each other's arguments and the four rational enclosures. Terra reviewed the finite-threshold argument. Gemini, accessed in Auto mode, reviewed the analytic reasoning conditional on the certificate computations without recomputing the data files. A proposed monotonicity shortcut failed on a five-site configuration, so the proof uses the two roots of the fixed-shape energy quadratic. [Fixed-ratio review record](collapse-onset.md#verification-and-credit)
+
+This manuscript has yet to undergo journal peer review. Literature priority remains open to independent confirmation. [Original article](https://doi.org/10.1007/s10955-020-02603-2) · [Literature search](PRIOR-ART.md)
