@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Cite this version of the verification software and notes. Yingbo Sun (orcarider7) maintains the repository. The README describes the AI contributions and credits the original researchers."
+title: "The sharp charge-ratio threshold for alternating Riesz chains"
+type: software
+authors:
+  - given-names: Yingbo
+    family-names: Sun
+    website: "https://github.com/orcarider7"
+repository-code: "https://github.com/orcarider7/alternating-riesz-chains"
+url: "https://github.com/orcarider7/alternating-riesz-chains"
+version: "0.1.0"
+date-released: 2026-11-26
+keywords:
+  - "Riesz energy"
+  - "alternating particle chains"
+  - "crystallization"
+  - "inverse-square potential"

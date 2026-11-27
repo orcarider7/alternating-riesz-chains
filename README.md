@@ -1,6 +1,8 @@
 # The sharp charge-ratio threshold for alternating Riesz chains
 
-Research note · 26 November 2026
+Research note · 26 November 2026 · Maintained by Yingbo Sun (orcarider7)
+
+[Literature comparison and priority search](PRIOR-ART.md) · [Citation information](CITATION.cff) · [Companion replication studies](https://github.com/orcarider7/paper-replication-lab)
 
 The [four-particle proof](four-sites.md) classifies all ground states at the critical charge ratio. In the [inverse-square study](inverse-square.md), at charge ratio six, a 78-particle cell has a strictly locally minimizing uniform state and also configurations whose energy tends to negative infinity. The first even period with a negative second variation at uniform spacing is 96. To verify the signs, including the 78-site integer certificate, run `python check_finite_cells.py` using the [verification script](check_finite_cells.py).
 
