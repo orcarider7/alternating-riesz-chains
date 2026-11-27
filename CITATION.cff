@@ -8,7 +8,7 @@ authors:
     website: "https://github.com/orcarider7"
 repository-code: "https://github.com/orcarider7/alternating-riesz-chains"
 url: "https://github.com/orcarider7/alternating-riesz-chains"
-version: "0.2.0"
+version: "0.3.0"
 date-released: 2026-11-26
 keywords:
   - "Riesz energy"
@@ -16,3 +16,4 @@ keywords:
   - "crystallization"
   - "inverse-square potential"
   - "first collapsing period"
+  - "finite-period critical charge ratios"

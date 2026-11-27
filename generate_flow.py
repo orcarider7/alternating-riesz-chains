@@ -5,17 +5,19 @@ SciPy/HiGHS version. Validation uses only exact integer arithmetic.
 """
 
 import argparse
+import gzip
 import json
 from collections import defaultdict
+from fractions import Fraction
 from pathlib import Path
 
 from scipy.optimize import linprog
 from scipy.sparse import coo_matrix
 
-from check_collapse_onset import verify_lower
+from check_collapse_onset import verify_flow
 
 
-def generate(reference, unit, scale):
+def generate(reference, unit, scale, charge=Fraction(6)):
     n = len(reference)
     mixed = [(u, v) for u in range(n) for v in range(u + 1, n, 2)]
     arcs = []
@@ -25,7 +27,7 @@ def generate(reference, unit, scale):
     # Source flow can terminate at any later site of the same parity.
     for source in range(n - 2):
         last = n - 1 - (n - 1 - source) % 2
-        weight = 36 if source % 2 == 0 else 1
+        weight = float(charge)**2 if source % 2 == 0 else 1
         first_row = len(demands)
         for sink in range(source + 1, last + 1):
             length = (reference[sink] - reference[source]) / unit
@@ -52,15 +54,15 @@ def generate(reference, unit, scale):
     for edge, (u, v) in enumerate(mixed):
         capacity_rows.append(edge)
         capacity_cols.append(max_load_col)
-        capacity_values.append(-6 * (unit / (reference[v] - reference[u]))**3)
+        capacity_values.append(-float(charge) * (unit / (reference[v] - reference[u]))**3)
     capacity = coo_matrix((capacity_values, (capacity_rows, capacity_cols)),
                           shape=(len(mixed), cols)).tocsc()
     balance = coo_matrix((equality_values, (equality_rows, equality_cols)),
                          shape=(len(demands), cols)).tocsc()
     result = linprog([0] * len(arcs) + [1], A_ub=capacity, b_ub=[0] * len(mixed),
                      A_eq=balance, b_eq=demands, bounds=(0, None), method="highs-ds",
-                     options={"primal_feasibility_tolerance": 1e-9,
-                              "dual_feasibility_tolerance": 1e-9})
+                     options={"primal_feasibility_tolerance": 1e-10,
+                              "dual_feasibility_tolerance": 1e-10})
     if not result.success:
         raise RuntimeError(result.message)
 
@@ -77,12 +79,12 @@ def generate(reference, unit, scale):
     # moves it one site left. A right-to-left pass preserves repaired sinks.
     normalization = scale * unit**3
     for source in range(n - 2):
-        weight = 36 if source % 2 == 0 else 1
+        weight = charge**2 if source % 2 == 0 else Fraction(1)
         for sink in range(n - 1, source, -1):
             demand = 0
             if (sink - source) % 2 == 0:
-                span = (reference[sink] - reference[source])**3
-                demand = (weight * normalization + span - 1) // span
+                span = weight.denominator * (reference[sink] - reference[source])**3
+                demand = (weight.numerator * normalization + span - 1) // span
             extra = demand - absorbed[source, sink]
             if extra > 0:
                 flow[source, sink - 1, sink] += extra
@@ -97,12 +99,17 @@ def main():
     parser.add_argument("output", type=Path, help="new certificate file to create")
     parser.add_argument("--reference", type=Path, default=Path(__file__).with_name("flow-75.json"),
                         help="JSON file supplying the reference coordinates and integer scales")
+    parser.add_argument("--charge", type=Fraction, help="exact charge (defaults to the reference case)")
     args = parser.parse_args()
     if args.output.exists():
         parser.error("output already exists")
-    source = json.loads(args.reference.read_text(encoding="utf-8"))
-    data = generate(source["reference"], source["unit"], source["scale"])
-    demands, edges, records, fraction = verify_lower(data)
+    opener = gzip.open if args.reference.suffix == ".gz" else open
+    with opener(args.reference, "rt", encoding="utf-8") as stream:
+        source = json.load(stream)
+    charge = args.charge if args.charge is not None else Fraction(source.get("lower", source.get("charge", 6)))
+    data = generate(source["reference"], source["unit"], source["scale"], charge)
+    data["charge"] = str(charge)
+    demands, edges, records, fraction = verify_flow(data, len(source["reference"]), charge)
     with args.output.open("x", encoding="utf-8") as stream:
         json.dump(data, stream, separators=(",", ":"))
         stream.write("\n")

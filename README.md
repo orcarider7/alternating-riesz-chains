@@ -4,9 +4,13 @@ Research note · 26 November 2026 · Maintained by Yingbo Sun (orcarider7)
 
 [Literature comparison and priority search](PRIOR-ART.md) · [Citation information](CITATION.cff) · [Companion replication studies](https://github.com/orcarider7/paper-replication-lab)
 
+**Varying the charge ratio gives every even first-collapse period from four onward.** For the inverse-square chain, the finite-period critical charge ratios decrease strictly from $8$ to $3+2\sqrt2$. The exact algebraic cutoff for a six-site period is approximately $7.44624223$. Near charge ratio six, four thresholds are certified to intervals of width $10^{-7}$. For example, the first collapsing periods at charge ratios 5.995, 6 and 6.002 are 80, 78 and 76 respectively. [Strict-order proof](collapse-ladder.md) · [Six-site proof](six-site-threshold.md) · [Certified charge ranges](charge-windows/README.md) · [Download the research note](finite-collapse-thresholds.pdf)
+
+中文摘要：只改变两类粒子的电荷大小之比，就可以让 4、6、8……中任意一个偶数成为第一个可以塌缩的周期。这里的塌缩指在固定周期长度下，能量可以降到负无穷。六粒子周期的电荷比阈值约为 7.44624223。靠近 6 的四个阈值都有宽度为千万分之一的严格上下界。复核命令为 **python check_six_site.py** 和 **python check_charge_windows.py**。
+
 **The first collapsing even period is exactly 78** for charges $6,-1$ with inverse-square interactions. Up to 76 sites per period the energy attains a finite minimum for every fixed density. Beginning at 78 sites it can decrease without bound. The uniform chain remains a strict local minimum at 78 and first acquires a negative second variation at 96. [Research manuscript](collapse-onset.md) · [PDF](first-collapse.pdf) · [Exact verification script](check_collapse_onset.py)
 
-中文摘要：在一维周期链中，两类粒子的电荷交替为 $6$ 和 $-1$，相互作用能与距离平方成反比，同类相吸、异类相斥。固定周期长度时，每周期最多 76 个粒子（偶数）都有最低能量。从 78 个开始，可以通过压缩一组粒子让能量趋向负无穷。证明用整数运算覆盖了所有较小周期的排法。下载仓库后运行 **python check_collapse_onset.py** 即可复核。
+固定电荷交替为 $6$ 和 $-1$ 时，每周期最多 76 个粒子（偶数）都有最低能量。从 78 个开始，可以通过压缩一组粒子让能量趋向负无穷。下载仓库后运行 **python check_collapse_onset.py** 即可复核。
 
 The [four-particle proof](four-sites.md) classifies all ground states at the critical charge ratio. The [inverse-square Hessian and trial configurations](inverse-square.md) can be checked with [check_finite_cells.py](check_finite_cells.py).
 

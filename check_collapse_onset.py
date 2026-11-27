@@ -12,11 +12,16 @@ def require(condition, message):
 
 
 def verify_lower(data):
+    return verify_flow(data, 75, Fraction(6))
+
+
+def verify_flow(data, n, charge):
     """Check that aggregate source flows serve every sink without exceeding capacity."""
     reference = data["reference"]
     unit, scale = data["unit"], data["scale"]
-    n = len(reference)
-    require(n == 75 and all(type(v) is int for v in reference), "expected 75 integer coordinates")
+    p, d = charge.numerator, charge.denominator
+    require(p >= d > 0 and n >= 3 and n % 2 == 1, "invalid heavy-ended problem")
+    require(len(reference) == n and all(type(v) is int for v in reference), "invalid reference")
     require(all(a < b for a, b in zip(reference, reference[1:])), "reference order")
     require(all(type(v) is int and v > 0 for v in (unit, scale)), "invalid scale")
     normalization = scale * unit**3
@@ -34,14 +39,14 @@ def verify_lower(data):
         for sink in range(source + 1, n):
             absorption = balance[source, sink]
             same = (sink-source) % 2 == 0
-            weight = (36 if source % 2 == 0 else 1) if same else 0
-            require(absorption * (reference[sink]-reference[source])**3 >= weight * normalization,
+            weight = (p**2 if source % 2 == 0 else d**2) if same else 0
+            require(d**2 * absorption * (reference[sink]-reference[source])**3 >= weight * normalization,
                     f"unmet demand at source {source}, sink {sink}")
             demands += int(same)
 
     mixed = [(u, v) for u in range(n) for v in range(u + 1, n, 2)]
-    used = max(load[u, v] * (reference[v]-reference[u])**3 for u, v in mixed)
-    capacity = 6 * normalization
+    used = d * max(load[u, v] * (reference[v]-reference[u])**3 for u, v in mixed)
+    capacity = p * normalization
     require(used < capacity, "insufficient mixed-edge capacity")
     return demands, len(mixed), len(data["flow"]), Fraction(used, capacity)
 
