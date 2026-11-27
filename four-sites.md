@@ -4,7 +4,7 @@ Research note · 26 November 2026
 
 A one-dimensional periodic cell contains two charges of each species in alternating order. For the interaction $-q_iq_j r^{-p}$ with $p>1$, the four-site problem admits an exact threshold. Let $M$ be the larger charge magnitude divided by the smaller. Equal spacing is the unique ground state when $M<2^{p+1}$. At equality, the two larger charges may have any positive separation, provided each smaller charge bisects its arc between them. Above the threshold the energy is unbounded below.
 
-The starting point is the alternating-chain model of Bétermin, Knüpfer and Nolte. Their Corollary 2.3 gives a sufficient condition for crystallization for power-law interactions across all even periods. This note treats a prescribed period of four sites and gives the minimizers at its sharp boundary. The Gaussian counterexample in the Codex–Jiang manuscript concerns a different potential. [Bétermin, Knüpfer and Nolte (2020)](https://doi.org/10.1007/s10955-020-02603-2) · [Codex–Jiang manuscript](https://github.com/xiujiang4/alternating-particle-chains) · [All-period Riesz calculation in this repository](README.md)
+The starting point is the alternating-chain model of Bétermin, Knüpfer and Nolte. Their Corollary 2.3 gives a sufficient condition for crystallization for power-law interactions across all even periods. This note treats a prescribed period of four sites and gives the minimizers at its sharp boundary. The Gaussian counterexample in the Codex–Jiang manuscript concerns a different potential. [Bétermin, Knüpfer and Nolte (2020)](https://doi.org/10.1007/s10955-020-02603-2) · [Codex–Jiang manuscript](https://github.com/xiujiang4/alternating-particle-chains) · [All-period Riesz calculation](all-period-riesz.md)
 
 ## Energy and normalization
 
@@ -80,6 +80,6 @@ The function $S(x)$ has its unique minimum at $L/2$ by strict convexity and refl
 | $M=2^{p+1}$ | Every $0<x<L$ minimizes with $(y,z)=(x/2,(L+x)/2)$. The gaps are $x/2,x/2,(L-x)/2,(L-x)/2$ in cyclic order. |
 | $M>2^{p+1}$ | Sending $x$ to zero along these midpoint configurations gives $E\to-\infty$. |
 
-Ground states are understood up to translation and the choice of starting site. For a normalization check, take $p=2$, $L=4$, and $M=8$. Both the uniform sites $(0,1,2,3)$ and the nonuniform sites $(0,1/2,1,5/2)$ have energy per particle $-17\pi^2/24$. At $M=6$ the four-site chain crystallizes even though sufficiently large cells at the same charge ratio can collapse. [Large-cell construction](README.md#collapse-beyond-the-threshold)
+Ground states are understood up to translation and the choice of starting site. For a normalization check, take $p=2$, $L=4$, and $M=8$. Both the uniform sites $(0,1,2,3)$ and the nonuniform sites $(0,1/2,1,5/2)$ have energy per particle $-17\pi^2/24$. At $M=6$ the four-site chain crystallizes even though sufficiently large cells at the same charge ratio can collapse. [Large-cell construction](all-period-riesz.md#collapse-beyond-the-threshold)
 
 OpenAI Codex derived and drafted this note. The proof is presented for independent checking. Priority and publication status require separate verification.

@@ -1,6 +1,6 @@
 # A strictly decreasing sequence of finite collapse thresholds
 
-Research note · Yingbo Sun (orcarider7), repository maintainer · 26 November 2026. [PDF summary](finite-collapse-thresholds.pdf) · [Six-site formula](six-site-threshold.md) · [Charge intervals near six](charge-windows/README.md)
+Research note · Yingbo Sun (orcarider7), repository maintainer · 26 November 2026. [Main manuscript](README.md) · [Finite-threshold PDF](finite-collapse-thresholds.pdf) · [Six-site formula](six-site-threshold.md) · [Charge intervals near six](charge-windows/README.md)
 
 Fix heavy charge $m\ge1$, light charge $-1$, and interaction $-q_iq_j/r^2$. For $k\ge1$ write $S_{2k+1}(x;m)$ for the once-counted open energy of $2k+1$ strictly ordered sites beginning and ending with a heavy. Define
 $$

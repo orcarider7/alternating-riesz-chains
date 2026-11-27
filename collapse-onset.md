@@ -4,7 +4,7 @@ Research note, 26 November 2026. Maintained by Yingbo Sun (orcarider7).
 
 **The first collapsing even period is 78.** Consider a periodic one-dimensional chain with alternating charges $6,-1$, pair energy $-q_iq_j/r^2$, and a fixed positive cell length. For each even period $N\le76$ the energy attains a finite minimum. For every even $N\ge78$ the infimum is $-\infty$. At $N=78$ equal spacing is still a strict local minimum up to translation. The first even period where equal spacing has a negative second variation is 96. The last two statements follow from the [uniform-chain Hessian](inverse-square.md).
 
-[Download the research note](first-collapse.pdf) · [Integer certificate](flow-75.json) · [Python verifier](check_collapse_onset.py) · [Literature comparison](PRIOR-ART.md)
+[Main manuscript](README.md) · [Fixed-ratio cutoff PDF](first-collapse.pdf) · [Integer certificate](flow-75.json) · [Python verifier](check_collapse_onset.py) · [Literature comparison](PRIOR-ART.md)
 
 ## 1. Reduction to an open chain
 

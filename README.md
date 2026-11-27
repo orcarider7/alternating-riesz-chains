@@ -1,193 +1,139 @@
-# The sharp charge-ratio threshold for alternating Riesz chains
+# When do alternating Riesz chains collapse?
 
-Research note · 26 November 2026 · Maintained by Yingbo Sun (orcarider7)
+<a name="the-sharp-charge-ratio-threshold-for-alternating-riesz-chains"></a>
 
-[Literature comparison and priority search](PRIOR-ART.md) · [Citation information](CITATION.cff) · [Companion replication studies](https://github.com/orcarider7/paper-replication-lab)
+Research manuscript · Yingbo Sun (orcarider7), maintainer
 
-**Varying the charge ratio gives every even first-collapse period from four onward.** For the inverse-square chain, the finite-period critical charge ratios decrease strictly from $8$ to $3+2\sqrt2$. The exact algebraic cutoff for a six-site period is approximately $7.44624223$. Near charge ratio six, four thresholds are certified to intervals of width $10^{-7}$. For example, the first collapsing periods at charge ratios 5.995, 6 and 6.002 are 80, 78 and 76 respectively. [Strict-order proof](collapse-ladder.md) · [Six-site proof](six-site-threshold.md) · [Certified charge ranges](charge-windows/README.md) · [Download the research note](finite-collapse-thresholds.pdf)
+**With alternating charges $+6,-1$ and inverse-square interactions, 78 is the smallest even number of sites per period that can collapse.** At any fixed positive cell length, the energy attains a finite minimum through 76 sites. At 78 sites a group of particles can move arbitrarily close together and drive the energy to $-\infty$. At that same cell size, the equally spaced configuration is still a strict local minimum up to translation.
 
-中文摘要：只改变两类粒子的电荷大小之比，就可以让 4、6、8……中任意一个偶数成为第一个可以塌缩的周期。这里的塌缩指在固定周期长度下，能量可以降到负无穷。六粒子周期的电荷比阈值约为 7.44624223。靠近 6 的四个阈值都有宽度为千万分之一的严格上下界。复核命令为 **python check_six_site.py** 和 **python check_charge_windows.py**。
+The cutoff of 78 is one instance of a general rule. Increasing the charge ratio makes collapse possible in smaller cells. In the inverse-square model every even period from four onward is the first to collapse for some interval of charge ratios. The finite-period critical ratios decrease strictly from $8$ to $3+2\sqrt2$. Near charge ratio six, the first collapsing period decreases from 80 at $m=5.995$ to 78 at $m=6$ and 76 at $m=6.002$.
 
-**The first collapsing even period is exactly 78** for charges $6,-1$ with inverse-square interactions. Up to 76 sites per period the energy attains a finite minimum for every fixed density. Beginning at 78 sites it can decrease without bound. The uniform chain remains a strict local minimum at 78 and first acquires a negative second variation at 96. [Research manuscript](collapse-onset.md) · [PDF](first-collapse.pdf) · [Exact verification script](check_collapse_onset.py)
+[Reproduce the certificates](#reproducing-the-results) · [Literature and priority](PRIOR-ART.md) · [Citation information](CITATION.cff)
 
-固定电荷交替为 $6$ 和 $-1$ 时，每周期最多 76 个粒子（偶数）都有最低能量。从 78 个开始，可以通过压缩一组粒子让能量趋向负无穷。下载仓库后运行 **python check_collapse_onset.py** 即可复核。
+中文摘要：在固定周期长度和反平方相互作用下，电荷交替为 $+6,-1$ 时，78 是能量可降到负无穷的最小偶数周期。每周期最多 76 个粒子时存在最低能量，78 个粒子时，扣除整体平移后，等距构型仍是严格局部极小值。只改变电荷大小之比，就可以让从 4 开始的任意偶数成为第一个可塌缩的周期。运行 `python check_collapse_onset.py` 和 `python check_charge_windows.py` 可以复核相关证书。
 
-The [four-particle proof](four-sites.md) classifies all ground states at the critical charge ratio. The [inverse-square Hessian and trial configurations](inverse-square.md) can be checked with [check_finite_cells.py](check_finite_cells.py).
+## Model and theorem
 
-For a one-dimensional periodic chain with alternating charges $m,-1$, write the pair interaction as $-q_iq_j|x_i-x_j|^{-p}$, with $m>0$ and $p>1$. Equal spacing uniquely minimizes the energy simultaneously at every density and every even period if and only if
+A cell contains an even number $N\ge2$ of particles in strict order, with $x_{i+N}=x_i+L$ for cell length $L>0$. The charges alternate between $q_{2j}=m$ and $q_{2j+1}=-1$. The pair energy is $-q_iq_j/|x_i-x_j|^p$. Like charges attract and opposite charges repel in this convention. For $p>1$, the energy per particle is the absolutely convergent sum
+
+$$
+E_p(X)=-\frac1N\sum_{i=0}^{N-1}
+\sum_{\substack{j\in\mathbb Z\\j\ne i}}
+\frac{q_iq_j}{|x_i-x_j|^p}.
+$$
+
+It counts each pair in both directions and includes all image cells. The mean gap is $\ell=L/N$. With $N,L$ fixed, collapse means $\inf_X E_p(X)=-\infty$ over the admissible ordered configurations. The transformation $x_i\mapsto a x_i$ for $a>0$ scales the energy by $a^{-p}$, so collapse at a given period is independent of the positive cell length. We take $m\ge1$ for the finite-period classification. Exchanging species, reversing the charge signs and rescaling the magnitudes maps a ratio $0<m<1$ to $1/m$ and changes the energy by a positive factor. [Original periodic model](https://doi.org/10.1007/s10955-020-02603-2) · [Four-site normalization](four-sites.md#energy-and-normalization)
+
+### A finite block decides collapse
+
+For $p=2$, write $S_n(x;m)$ for the open energy of $n$ ordered sites, with pairs counted once. In a heavy-ended block the first and last sites both have charge $m$. A periodic cell of even size $N$ collapses exactly when some heavy-ended open block of $N-1$ sites has negative $S_{N-1}$.
+
+To see the lower bound, cut the periodic cell at its largest gap, which is at least $L/N$. The terms involving other image cells are then uniformly bounded. Orient the remaining cell from a heavy site to a light site. From the terminal light, each earlier light can be paired with a closer heavy, so removing the terminal light lowers the open energy. Nonnegative energy for every heavy-ended block of $N-1$ sites therefore bounds the periodic energy below. For the converse, compress a negative open block by a factor $\delta\downarrow0$ and keep the terminal light at a fixed positive distance. The internal block contributes $2S_{N-1}/(N\delta^2)$ to $E_2$ and all other terms stay bounded. [Detailed reduction](collapse-onset.md#1-reduction-to-an-open-chain) · [Variable-charge version](collapse-ladder.md#periodic-consequence)
+
+## The finite-period thresholds
+
+For $k\ge1$ let $\mu_k$ be the infimum of charge ratios $m\ge1$ at which some heavy-ended open block of $2k+1$ sites has negative energy, and set $\mu_0=+\infty$. Then
+
+$$
+8=\mu_1>\mu_2>\cdots\downarrow 3+2\sqrt2.
+$$
+
+Every such open block has positive energy for $1\le m<\mu_k$. At $m=\mu_k$, all such blocks have nonnegative energy and a finite block attains zero. Above $\mu_k$, a negative block exists. Together with the reduction, this gives the classification
+
+$$
+\text{First collapsing period }N=2k+2
+\quad\Longleftrightarrow\quad
+\mu_k<m\le\mu_{k-1}\qquad(k\ge1).
+$$
+
+Period two is always bounded below. At the exact threshold $\mu_k$, period $2k+2$ is still bounded below. Attainment of the periodic infimum at a critical ratio requires a separate argument. For $1\le m\le3+2\sqrt2$, no finite period collapses. [Threshold theorem and proof](collapse-ladder.md)
+
+For a fixed block shape, the open energy is the quadratic $mC-m^2A-B$, where $C,A,B$ are the inverse-square distance sums for mixed, heavy-heavy and light-light pairs respectively. Dividing each same-charge interval into blocks of odd index length gives a strict finite-block lower bound at $m=3+2\sqrt2$. At each critical ratio, a finite zero-energy block can be extended by a distant light and heavy whose net energy increment is negative. This lowers the next threshold strictly. To obtain a finite zero at that next threshold, normalize the smallest gap of a minimizing sequence to one. Any gap that tends to infinity would split the block into shorter clusters with a strictly positive total energy, contradicting the zero limit. Finally, uniformly spaced open blocks have negative limiting energy per site whenever $m>3+2\sqrt2$, giving the limit of the decreasing sequence. [Dyadic bound](collapse-ladder.md#charge-dependence-and-the-limiting-threshold) · [Strict decrease and attainment of open-block zeros](collapse-ladder.md#strict-decrease-and-attainment)
+
+### Four and six sites
+
+- **Four sites.** For three open sites with successive gaps $a,b$, the energy is $m(a^{-2}+b^{-2})-m^2(a+b)^{-2}$. Convexity gives $(a+b)^2(a^{-2}+b^{-2})\ge8$, with equality at $a=b$. Hence $\mu_1=8$. More generally, the exact four-site threshold is $2^{p+1}$ for $p>1$. Below it the equally spaced chain is the unique ground state up to translation. At the threshold the two heavy sites may have any positive separation, and each light site bisects its arc between them. [Four-site ground states](four-sites.md)
+- **Six sites.** The critical ratio $\mu_2=16(1+3u)/(9(1-u)^3)$ has certified enclosure $7.44624222875<\mu_2<7.44624223510$. Its parameter $u$ is the unique root in $(1/4,13/50)$ of
+
+  $$
+  256u^2(3+u)(1+3u)-128(1+3u)(1-u)^3+9(1-u)^6=0.
+  $$
+
+  The proof uses a stationary symmetric five-site block at the threshold and a convexity certificate valid for every five-site shape. Below $\mu_2$ the periodic minimum is attained. At $\mu_2$ the periodic infimum is finite. [Algebraic threshold and global certificate](six-site-threshold.md)
+
+## Why the cutoff is exactly 78 at charge ratio six
+
+Two exact computations settle the cases on either side of the cutoff.
+
+1. **Through period 76.** An integer flow proves that the absolute same-charge contribution is at most $\rho$ times the mixed-charge contribution for every heavy-ended 75-site block, with $\rho=228876486320393532885019483/228881835937500000000000000<1$. For increasing reference coordinates $B$ and arbitrary ordered coordinates $x$, convexity of the cube bounds $(B_v-B_s)^3/(x_v-x_s)^2$ by the sum of the corresponding expressions along a path from $s$ to $v$. The flow routes same-charge terms along mixed edges. Its exact checked capacities give the strict margin. Padding with sites that recede to infinity extends the bound to shorter blocks. The margin also controls all interior adjacent gaps. The terminal-light contribution controls its adjacent gap, so the energy tends to $+\infty$ whenever any cyclic gap tends to zero. This gives attainment by compactness of the closed gap simplex. [Universal lower certificate and attainment](collapse-onset.md#2-a-certificate-valid-for-every-choice-of-the-75-positions) · [Integer flows](flow-75.json)
+2. **From period 78 onward.** A 77-site block has evenly indexed sites at $g((j-38)/38)$, where $g(t)=2t+t^5$, and odd sites at the midpoints of their neighbors. Signed integer arithmetic gives $10^6 S_{77}\le -36{,}340{,}297$. Compressing this block drives the energy to $-\infty$ in every even period $N\ge78$, with the remaining sites held at distinct positive distances. [Rational upper witness](collapse-onset.md#3-a-negative-77-site-block)
+
+The same methods give strict enclosures of width $10^{-7}$ for the four critical ratios for periods 74, 76, 78 and 80. A flow checks positivity for every open shape at the lower endpoint of each enclosure. A rational shape has negative energy at the upper endpoint. These enclosures and the strict ordering give the following certified ranges, including the endpoints shown.
+
+- From $5.9921304$ to $5.9961805$, the first collapsing period is 80.
+- From $5.9961806$ to $6.0004364$, the first collapsing period is 78.
+- From $6.0004365$ to $6.0049142$, the first collapsing period is 76.
+
+The transition between each consecutive range lies strictly within the intervening gap. [Exact endpoint data and verification](charge-windows/README.md)
+
+## When equal spacing loses local stability
+
+At $p=2$, for even $N\ge4$ set $u_N=(2/N)(1-2/N)$. The Hessian at equal spacing is positive semidefinite exactly when
+
+$$
+m+m^{-1}\le H_N,\qquad H_N=6+8u_N+2u_N^2.
+$$
+
+Strict inequality gives a strict local minimum modulo translation. Above the bound there is a negative second variation. At equality an additional zero direction leaves the local question open at quadratic order. At $m=6$, the inequality is strict at 78 and the first negative second variation occurs at 96. Thus a chain at period 78 can resist every sufficiently small displacement of the equally spaced state even though a compressed block gives arbitrarily low energy at the same period and density. [Fourier derivation and exact checks](inverse-square.md#the-uniform-chain-hessian)
+
+## Collapse beyond the threshold
+
+For general $p>1$, equal spacing uniquely minimizes the energy up to translation at every positive density and every even period exactly when
 
 $$
 m+m^{-1}\le 2^{p+1}-2.
 $$
 
-Outside this range, the energy has infimum $-\infty$ at every density for every sufficiently large even period. The threshold sharpens the sufficient bound in Corollary 2.3 of Bétermin, Knüpfer, and Nolte. The proof adapts the exponential gap estimate in the Codex–Jiang follow-up by retaining the part of the variational problem that depends on the sum of the two charges. [Original paper](https://doi.org/10.1007/s10955-020-02603-2) · [Exponential gap estimate, Theorem 3](https://github.com/xiujiang4/alternating-particle-chains/blob/a48fe4c2623a29dd45edd227410a07baba400250/en/paper.tex)
-
-## Model and theorem
-
-Fix an even integer $N\ge 2$ and a mean gap $\ell>0$. Let $L=N\ell$, and take a strictly ordered chain with $x_{i+N}=x_i+L$ and $x_0=0$. Set $d_i=x_{i+1}-x_i$ and $\sigma_i=(-1)^i$. The charge $q_i$ is $m$ for even $i$ and $-1$ for odd $i$. The energy per particle for a radial kernel $f$ is
+If $d_i=x_{i+1}-x_i$, the exponential-kernel argument gives
 
 $$
-E_f(X)=-\frac1N\sum_{i=0}^{N-1}
-\sum_{\substack{j\in\mathbb Z\\j\ne i}}
-q_iq_j f(|x_i-x_j|).
+E_p(X)\ge\frac{C_p(m)}{N}\sum_{i=0}^{N-1}d_i^{-p},\qquad
+C_p(m)=m2^{-p}\zeta(p)\big[2^{p+1}-2-(m+m^{-1})\big].
 $$
 
-Each pair contributes in both directions, as in the original paper. For $f(r)=r^{-p}$ with $p>1$ the inner sum is absolutely convergent. Write $E_p$ for this energy and $U_d$ for the equidistant chain of spacing $d$.
+The inequality is strict for unequal gaps, even when the coefficient is zero. A uniformly spaced chain with gap $d$ has energy $C_p(m)d^{-p}$. When $C_p(m)\ge0$, convexity in the gaps gives the minimum value $C_p(m)\ell^{-p}$. When $C_p(m)<0$, sufficiently long uniformly spaced open blocks have negative energy. Compressing such a block proves collapse for all sufficiently large even periods. At $p=2$ this gives the limiting charge ratio $3+2\sqrt2$ for $m\ge1$. At $m=6$, the first even period that collapses by uniform compression of the entire open cell is 162. The 77-site certificate illustrates how varying the gaps can substantially lower the first collapsing period. <a name="how-large-must-a-uniformly-compressed-block-be"></a> [All-exponent proof](all-period-riesz.md) · [Uniform compression calculation](all-period-riesz.md#how-large-must-a-uniformly-compressed-block-be)
 
-Define
+<a name="exponential-gap-estimate-with-unequal-charges"></a>
+<a name="from-exponentials-to-riesz-kernels"></a>
+<a name="convex-envelope-for-positive-exponential-mixtures"></a>
 
-$$
-C_p(m)=\zeta(p)\big[2m(1-2^{-p})-(1+m^2)2^{-p}\big].
-$$
+For positive mixtures of exponential kernels with integrable tails, the proof also identifies the limit of the energy infima as the even period grows. It equals the lower convex envelope of the corresponding uniform-chain energy evaluated at the mean gap, allowing the value $-\infty$. [Exponential gap estimate](all-period-riesz.md#exponential-gap-estimate-with-unequal-charges) · [Passage to Riesz kernels](all-period-riesz.md#from-exponentials-to-riesz-kernels) · [Convex-envelope proof](all-period-riesz.md#convex-envelope-for-positive-exponential-mixtures)
 
-**Theorem.** Every admissible chain satisfies
+<a name="example-and-relation-to-prior-work"></a>
 
-$$
-E_p(X)\ge \frac{C_p(m)}{N}\sum_{i=0}^{N-1}d_i^{-p},
-$$
+Bétermin, Knüpfer and Nolte's Corollary 2.3 proves crystallization under the sufficient condition $m+m^{-1}<2^{p+1}/\zeta(p)$ for $p>p_1\approx1.465$. At $p=2$, the sharp all-period bound here includes $m=5$, which lies outside that sufficient range. The proof extends the neutral exponential gap estimate in the Codex–Jiang draft by retaining the term proportional to $(m-1)^2$. The [priority search](PRIOR-ART.md) records the dated literature and upstream comparison. It found no equivalent finite-period classification in the sources checked. Literature priority remains open. [Corollary 2.3 and its proof](https://arxiv.org/abs/1804.05743) · [Pinned Codex–Jiang draft, Theorem 3](https://github.com/xiujiang4/alternating-particle-chains/blob/a48fe4c2623a29dd45edd227410a07baba400250/en/paper.tex)
 
-with equality exactly for equidistant chains. Consequently, when $C_p(m)\ge 0$, the unique minimum is $E_p(U_\ell)=C_p(m)\ell^{-p}$. When $C_p(m)<0$, for every sufficiently large even $N$ and every $\ell>0$, the energy is unbounded below at fixed $N$ and $\ell$.
+## Reproducing the results
 
-For a uniform chain, the average charge product of two sites $k$ steps apart is $-m$ for odd $k$ and $(1+m^2)/2$ for even $k$. Summing the two directions gives $E_p(U_d)=C_p(m)d^{-p}$. The factorization
+Run these commands from the repository root with Python 3. The verification scripts use the standard library.
 
-$$
-C_p(m)=m2^{-p}\zeta(p)\big[2^{p+1}-2-(m+m^{-1})\big]
-$$
+```sh
+python check_collapse_onset.py
+python check_charge_windows.py
+python check_six_site.py
+python check_finite_cells.py
+python verify.py
+```
 
-gives the stated threshold.
+- `check_collapse_onset.py` checks 4,078 integer flow records and the negative 77-site witness for the cutoff at 78. [Proof and verifier](collapse-onset.md#verification-and-credit)
+- `check_charge_windows.py` checks both rational endpoints of all four charge enclosures using the compressed JSON data. [Endpoint data and method](charge-windows/README.md#reproducing-the-bounds)
+- `check_six_site.py` verifies the rational enclosure for $\mu_2$ from the polynomial. The derivation and the proof of the universal lower bound are given separately. [Six-site proof](six-site-threshold.md)
+- `check_finite_cells.py` checks the four-site identity, the Hessian thresholds, and the cotangent and rational collapse witnesses. `verify.py` evaluates the gap bound on examples and checks the exact cutoff for uniform compression. [Hessian and trial configurations](inverse-square.md) · [All-period calculations](all-period-riesz.md#how-large-must-a-uniformly-compressed-block-be)
 
-## Exponential gap estimate with unequal charges
+The optional flow generator uses SciPy. Run `python generate_flow.py alternative.json` for the fixed-ratio reference, or `python generate_flow.py alternative.json --reference charge-windows/open-75.json.gz` for one of the variable-ratio references. The stored certificates can be verified independently of how the reference positions and flows were generated. [Flow generator](generate_flow.py)
 
-For $\kappa>0$, abbreviate $E_{e^{-\kappa r}}$ by $E_\kappa$. Define the $L$-periodic kernel
+## Credit and version history
 
-$$
-K_\kappa(t)=\sum_{n\in\mathbb Z}e^{-\kappa|t+nL|},
-\qquad
-Q_\kappa=\sum_{i,j=0}^{N-1}q_iq_jK_\kappa(x_i-x_j).
-$$
+Yingbo Sun (orcarider7) maintains this research. OpenAI Codex contributed to the proofs, code and writing. Astra and Sol independently recomputed the integer checks for the fixed-ratio cutoff. Astra developed the strict-decrease argument and Sol developed the algebraic six-site certificate. Each checked the other's argument and the charge enclosures. Terra reviewed the analytic reduction and the finite-threshold reasoning. Gemini, accessed in Auto mode, reviewed the analytic arguments conditional on the exact computations. The linked notes record the scope of these reviews and the changes they prompted. Formal peer review remains outstanding. [Fixed-ratio review record](collapse-onset.md#verification-and-credit) · [Variable-ratio review record](collapse-ladder.md#attribution-and-checks) · [Citation metadata](CITATION.cff)
 
-The periodic kernel counts every image. Subtracting each site's own term yields $E_\kappa(X)=(m^2+1)/2-Q_\kappa/N$. On the circle of length $L$, the derivative jump of $K_\kappa$ at zero gives $(-\partial_t^2+\kappa^2)K_\kappa=2\kappa\delta_0$. The resulting variational identity is
-
-$$
-Q_\kappa=\sup_{u\in H^1_{\mathrm{per}}(0,L)}
-\left\{
-2\sum_i q_i u(x_i)
--\frac1{2\kappa}\int_0^L\big[(u')^2+\kappa^2 u^2\big]\,dt
-\right\}.
-$$
-
-Indeed, the maximizing field $u_*(t)=\sum_j q_jK_\kappa(t-x_j)$ represents the linear functional $u\mapsto\sum_i q_i u(x_i)$ in the inner product defined by the integral divided by $2\kappa$. Completing the square gives the identity.
-
-Split the integral over the gaps. On gap $i$, let $v=u(x_i)$, $w=u(x_{i+1})$, and $t_i=\tanh(\kappa d_i/2)$. For those endpoints, the minimum of the integral penalty on the gap is
-
-$$
-\frac14\left[t_i(v+w)^2+t_i^{-1}(v-w)^2\right].
-$$
-
-Center the gap at zero. The minimizing field solves $u''=\kappa^2u$ and is a linear combination of $\cosh(\kappa t)$ and $\sinh(\kappa t)$. Evaluating the integral by $(u u')'=(u')^2+\kappa^2u^2$ gives the displayed formula.
-
-The linear part splits over gaps as $\sum_i(q_i v+q_{i+1}w)$, with $v,w$ the endpoints of gap $i$. Its gap contribution is
-
-$$
-q_i v+q_{i+1}w
-=\frac{m-1}{2}(v+w)+\frac{(m+1)\sigma_i}{2}(v-w).
-$$
-
-Maximizing in $v+w$ and $v-w$ independently therefore gives
-
-$$
-Q_\kappa\le \sum_{i=0}^{N-1}\left[
-\frac{(m-1)^2}{4t_i}+\frac{(m+1)^2t_i}{4}
-\right].
-\tag{1}
-$$
-
-The unique maximizing endpoint values for gap $i$ obey
-
-$$
-v+w=(m-1)/t_i,\qquad
-v-w=(m+1)\sigma_i t_i.
-\tag{2}
-$$
-
-When all gaps equal $d$, these endpoint values agree at shared sites because $\sigma_{i+1}=-\sigma_i$. Joining the minimizing fields on the gaps gives a periodic field attaining (1). Thus the bracket in (1) is the uniform $Q_\kappa/N$ at spacing $d_i$. With the self term accounted for, (1) reads
-
-$$
-E_\kappa(X)\ge \frac1N\sum_{i=0}^{N-1}E_\kappa(U_{d_i}).
-\tag{3}
-$$
-
-For a nonuniform chain there is a pair of unequal neighboring lengths $d,e$ meeting at some site $i$. By (2), the difference between the two individually maximizing values for that site is
-
-$$
-\frac{t_d-t_e}{2}\left[(m+1)\sigma_i-\frac{m-1}{t_d t_e}\right],
-\qquad t_s=\tanh(\kappa s/2).
-$$
-
-For each $\kappa>0$, the unequal lengths give $t_d\ne t_e$. As $\kappa\to\infty$, the bracket tends to $2$ if $\sigma_i=1$ and to $-2m$ if $\sigma_i=-1$. Thus the gap maxima are incompatible for all sufficiently large $\kappa$. Since the global variational maximum is attained, (3) is strict for those $\kappa$.
-
-## From exponentials to Riesz kernels
-
-For $r>0$, the inverse power is a positive mixture of exponentials.
-
-$$
-r^{-p}=\frac{1}{\Gamma(p)}\int_0^\infty
-e^{-\kappa r}\kappa^{p-1}\,d\kappa.
-$$
-
-For every fixed admissible chain and $p>1$, the sum of the absolute values of the integrated pair contributions is finite. Indeed, $\lvert q_iq_j\rvert$ is bounded and the distances to image cells grow linearly with the image index. The same holds for every $U_{d_i}$. Fubini's theorem therefore justifies integrating (3) to obtain the theorem's gap inequality, with strict inequality for any unequal gaps.
-
-When $C_p(m)\ge 0$, convexity of $d\mapsto d^{-p}$, together with $\sum_i d_i=N\ell$, gives $E_p(X)\ge C_p(m)\ell^{-p}$. The strict exponential estimate shows uniqueness even at $C_p(m)=0$.
-
-## Collapse beyond the threshold
-
-Assume $C_p(m)<0$. Place $N$ alternating sites at $x_i=i\delta$, for $0\le i<N$, and repeat the cell at period $L=N\ell$. For $0<\delta<L/[2(N-1)]$, the cell is admissible. The energy contribution from pairs within the same cell is $\delta^{-p}C_{N,p}(m)$, with
-
-$$
-C_{N,p}(m)=\sum_{k=1}^{N-1}
-\left(1-\frac{k}{N}\right)k^{-p}
-\begin{cases}
-2m,&k\text{ odd},\\
--(1+m^2),&k\text{ even}.
-\end{cases}
-$$
-
-The factor $1-k/N$ counts the fraction of sites that have a $k$-step neighbor ahead within the cell. When $k$ is even, the $N-k$ possible starting indices comprise equal numbers of the two species because $N-k$ is even. Since $p>1$, dominated convergence gives $C_{N,p}(m)\to C_p(m)$ through even $N$, so $C_{N,p}(m)<0$ for all sufficiently large even $N$.
-
-For each fixed such $N$ and $\ell>0$, distances to sites in image cell $n\ne 0$ are at least $\lvert n\rvert L/2$. The total energy contribution from those images is bounded uniformly as $\delta\downarrow 0$, since $\sum_{n\ne 0}\lvert n\rvert^{-p}$ converges. The same-cell contribution tends to $-\infty$, proving the collapse statement.
-
-## Convex envelope for positive exponential mixtures
-
-Let $f(r)=\int_{(0,\infty)}e^{-\kappa r}\,d\mu(\kappa)$ for a positive measure $\mu$, with $f(r)<\infty$ for every $r>0$ and $\int_1^\infty f(r)\,dr<\infty$. Set $g(d)=E_f(U_d)$. Then the limit of the energy infimum at fixed mean spacing $\ell$ as the even period size tends to infinity is the lower convex envelope of $g$ at $\ell$, allowing the value $-\infty$.
-
-Monotonicity of $f$ and its integrable tail give $\sum_{k\ge 1} f(kc)<\infty$ for every $c>0$. Thus absolute convergence permits integrating (3) against $\mu$. Every chain has $E_f(X)\ge N^{-1}\sum_i g(d_i)$, which is at least the lower convex envelope at the mean gap.
-
-For the upper bound, fix $a,b>0$ and $0<\lambda<1$ such that $\ell=\lambda a+(1-\lambda)b$. Choose even $n_N$ with $n_N/N\to\lambda$. Set $n_N$ consecutive gaps to $a$ and all other gaps to $b_N=(N\ell-n_Na)/(N-n_N)$, which tends to $b$ and is positive for sufficiently large $N$. The mean gap is exactly $\ell$. For any fixed $k$, the interaction between sites $k$ gaps apart has at most $2(k-1)$ starting sites whose path crosses a gap-block boundary. The other starting sites give the uniform contributions at $a$ and $b_N$, with species counts balanced up to one site per block. For all sufficiently large $N$, every gap is bounded below by a common $c>0$. The absolute mean contribution of shell $k$, counting both directions, is therefore bounded by $2\max(1,m)^2 f(kc)$. Dominated convergence, and continuity of $f$ on $(0,\infty)$ from its integral representation, give the limiting energy $\lambda g(a)+(1-\lambda)g(b)$. Taking the infimum of all such chord values, including $g(\ell)$, gives the lower convex envelope. It suffices to use two points because minimizing a finite weighted average with prescribed mean takes place at a vertex of the weight polytope, where at most two weights are positive.
-
-## Example and relation to prior work
-
-For $p=2$, the threshold is $m+m^{-1}\le 6$, or $m^2-6m+1\le 0$. Equal spacing is the unique optimizer throughout
-
-$$
-3-2\sqrt 2\le m\le 3+2\sqrt 2.
-$$
-
-The upper endpoint is about $5.8284$. Corollary 2.3 of the original paper covers $m+m^{-1}<2^{p+1}/\zeta(p)$ for $p>p_1\approx 1.465$, which at $p=2$ has an upper endpoint of about $4.6483$. Thus $m=5$ is a concrete case covered by the sharpened bound. At $m=6$ the energy is unbounded below for all sufficiently large even cells. [Bétermin, Knüpfer, and Nolte, Corollary 2.3 and its proof](https://doi.org/10.1007/s10955-020-02603-2)
-
-The exponential variational method reduces to the Codex–Jiang draft's neutral bound when $m=1$. The sum contribution in (1) vanishes in that case. The draft also relates its neutral result to earlier sharp-interface estimates. [Codex–Jiang draft, exponential kernels and relation to sharp-interface results](https://github.com/xiujiang4/alternating-particle-chains/blob/a48fe4c2623a29dd45edd227410a07baba400250/en/paper.tex)
-
-### How large must a uniformly compressed block be?
-
-At $p=2$ and $m=6$, the open-block coefficient $C_N=C_{N,2}(6)$ is negative exactly for even $N\ge162$. Thus, in this family, 162 is the first even cell size where reducing the internal gap to zero drives the energy to $-\infty$. Other choices of internal gaps are a separate finite-cell optimization problem.
-
-To prove the cutoff, let $w_k=12$ for odd $k$ and $w_k=-37$ for even $k$. Set $B_N=\sum_{k<N,\,k\ge1} w_k/k$. Subtracting the two finite sums defining $C_{N+2}$ and $C_N$ gives, for even $N$,
-
-$$
-(N+2)(C_{N+2}-C_N)=2B_N/N-74/N^2+12/(N+1)^2.
-$$
-
-Here $B_4=-5/2$ and $B_{N+2}-B_N=-37/N+12/(N+1)<0$. The right-hand side is negative for $N\ge4$, and direct substitution gives the same sign at $N=2$. Exact rational summation in the accompanying script gives $0.002347<C_{160}<0.002349$ and $-0.001801<C_{162}<-0.001798$. Monotonicity proves the cutoff. At any fixed cell size the contribution from other image cells stays bounded during this compression, as shown above.
-
-The accompanying [verification script](verify.py) evaluates numerical examples alongside the analytic proof.
-
-OpenAI Codex derived and drafted these notes. Astra found the original 78-site rational witness, and Sol independently evaluated the signed pair energies as exact fractions. Terra audited the proof and the sign of the integer ceiling bound. Gemini reviewed the scaling argument conditional on the certificate. For the exact finite-period cutoff, Astra and Sol separately checked the 75-site integer certificate, Terra reviewed the reduction, and Gemini reviewed the analytic argument conditional on the integer checks. All verification scripts use the Python standard library. The optional flow generator uses SciPy. Formal peer review and literature priority remain outstanding.
+The earlier [fixed-ratio cutoff PDF](first-collapse.pdf) and [finite-threshold account PDF](finite-collapse-thresholds.pdf) record the original stages of the work. The [priority record](PRIOR-ART.md#search-record-and-limits) links to the dated releases and pinned source versions. [Companion replication studies](https://github.com/orcarider7/paper-replication-lab)

@@ -137,4 +137,4 @@ At 78 the positive Hessian margin is exactly $159397/4626882$. The local minimum
 
 ## Scope and reproducibility
 
-The local stability test, cotangent trial and integer certificate can be checked independently of the all-exponent argument in the [companion note](README.md). Codex agents derived and drafted the formulas. An Astra review produced the 78-site witness, which a separate Sol review checked by exact rational summation. Literature priority and formal peer review are outstanding.
+The local stability test, cotangent trial and integer certificate can be checked independently of the all-exponent argument in the [all-period appendix](all-period-riesz.md). Codex agents derived and drafted the formulas. An Astra review produced the 78-site witness, which a separate Sol review checked by exact rational summation. Literature priority and formal peer review are outstanding.

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "Cite this version of the verification software and notes. Yingbo Sun (orcarider7) maintains the repository. The README describes the AI contributions and credits the original researchers."
-title: "The sharp charge-ratio threshold for alternating Riesz chains"
+title: "When do alternating Riesz chains collapse?"
 type: software
 authors:
   - given-names: Yingbo
